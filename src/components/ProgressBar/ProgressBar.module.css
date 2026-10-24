@@ -1,0 +1,40 @@
+.wrapper {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9375rem;
+}
+
+.label {
+  color: var(--color-ink-muted);
+}
+
+.value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  height: 0.75rem;
+  overflow: hidden;
+  background: var(--color-rule);
+  border-radius: 999px;
+}
+
+.fill {
+  height: 100%;
+  background: var(--color-pen);
+  border-radius: inherit;
+  transition:
+    width 0.2s ease-out,
+    background-color 0.3s ease;
+}
+
+.complete {
+  background: var(--color-success);
+}
