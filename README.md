@@ -1,16 +1,42 @@
-# React + Vite
+# EduTech
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Página de catálogo de cursos de tecnologia desenvolvida em React como atividade da disciplina de Engenharia de Software (UCSal).
 
-Currently, two official plugins are available:
+## Componentes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Componente | Onde aparece |
+| --- | --- |
+| Acordeão | Dúvidas frequentes |
+| Paginação | Lista de cursos |
+| Barra de progresso | Envio do certificado de horas complementares |
+| Abas | Detalhes do curso selecionado |
+| Menu suspenso | Filtro por área e ordenação do catálogo |
+| Notificação toast | Matrícula, envio de certificado e erros de validação |
 
-## React Compiler
+As notificações usam a **Context API** (`ToastProvider` + hook `useToast`), o que permite disparar um toast a partir de qualquer componente sem passar props entre eles.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tecnologias
 
-## Expanding the ESLint configuration
+- React com Vite
+- CSS Modules
+- Sem bibliotecas de UI externas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Como rodar
+
+```bash
+npm install
+npm run dev
+```
+
+## Estrutura
+
+```
+src/
+├── components/   componentes reutilizáveis (Accordion, Dropdown, Pagination, ProgressBar, Tabs, Toast, CourseItem)
+├── context/      contexto global das notificações
+├── data/         dados fictícios de cursos, instrutores e FAQ
+├── hooks/        hook useToast
+├── layout/       Header e Footer
+├── sections/     seções da página
+└── App.jsx       componente principal
+```

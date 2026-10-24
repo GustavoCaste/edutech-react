@@ -1,120 +1,79 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import Header from './layout/Header/Header'
+import Footer from './layout/Footer/Footer'
+import Hero from './sections/Hero/Hero'
+import CourseCatalog from './sections/CourseCatalog/CourseCatalog'
+import CourseDetails from './sections/CourseDetails/CourseDetails'
+import CertificateUpload from './sections/CertificateUpload/CertificateUpload'
+import FaqSection from './sections/FaqSection/FaqSection'
+import { useToast } from './hooks/useToast'
+import { courses } from './data/courses'
+import { instructors } from './data/instructors'
+import { faqItems } from './data/faq'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { showToast } = useToast()
+  const [selectedCourseId, setSelectedCourseId] = useState(courses[0].id)
+  const [enrolledIds, setEnrolledIds] = useState([])
+
+  const selectedCourse = courses.find((course) => course.id === selectedCourseId)
+
+  function handleViewDetails(courseId) {
+    setSelectedCourseId(courseId)
+    document.getElementById('detalhes')?.scrollIntoView()
+    document.getElementById('detalhes-titulo')?.focus({ preventScroll: true })
+  }
+
+  function handleEnroll(course) {
+    if (enrolledIds.includes(course.id)) {
+      showToast({
+        type: 'info',
+        title: 'Matrícula já realizada',
+        message: `Você já está matriculado em ${course.title}.`,
+      })
+      return
+    }
+
+    setEnrolledIds((current) => [...current, course.id])
+    showToast({
+      type: 'success',
+      title: 'Matrícula confirmada',
+      message: `Você foi matriculado em ${course.title}.`,
+    })
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <a href="#conteudo" className="skip-link">
+        Pular para o conteúdo
+      </a>
+      <Header />
 
-      <div className="ticks"></div>
+      <main id="conteudo">
+        <Hero courseCount={courses.length} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <CourseCatalog
+          courses={courses}
+          selectedCourseId={selectedCourseId}
+          enrolledIds={enrolledIds}
+          onViewDetails={handleViewDetails}
+          onEnroll={handleEnroll}
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <div className="container section split">
+          <CourseDetails
+            course={selectedCourse}
+            instructor={instructors[selectedCourse.instructorId]}
+            isEnrolled={enrolledIds.includes(selectedCourse.id)}
+            onEnroll={handleEnroll}
+          />
+          <CertificateUpload />
+        </div>
+
+        <FaqSection items={faqItems} />
+      </main>
+
+      <Footer />
     </>
   )
 }
