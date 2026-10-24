@@ -1,0 +1,40 @@
+/* Fundo de folha pautada, com a linha vermelha da margem do caderno */
+.hero {
+  background-color: var(--color-surface);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(2rem - 1px),
+    var(--color-rule) calc(2rem - 1px),
+    var(--color-rule) 2rem
+  );
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.page {
+  padding: clamp(3rem, 9vw, 6.5rem) 0 clamp(2.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 3rem);
+  border-left: 2px solid var(--color-margin);
+}
+
+.title {
+  max-width: 17ch;
+  font-size: clamp(2.25rem, 1.3rem + 4.2vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  max-width: 52ch;
+  margin-top: 1.5rem;
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  line-height: 2rem;
+  color: var(--color-ink-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
